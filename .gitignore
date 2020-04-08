@@ -1,0 +1,3 @@
+# ignoring the executable created bits for a package directory
+__pycache__/
+*.pyc
