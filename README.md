@@ -1,5 +1,5 @@
 
-#  Licence text for start of all programmes
+#  (C) Licence for all programmes
 
 ```
 ###  Copyright (C) <year>  <name of author>
