@@ -11,26 +11,47 @@ These packages have been developed to help me in coding.
 | | | `dataFit`    | | | | | |
 
 
-##  fileOps
+# Usage
 
-##  dataOps
+After cloning to your computer, you must point future python programmes to these files.  Either add the location of these files to your `$PATH` or use the following commands at the start of each new python programme:
 
-####  dataClass
+``` python
+from sys import path as sysPath
+sysPath.append('[PATH TO THESE PACKAGES]'))
+```
+
+If you are using multiple file systems, this can be done in a system independent way using the python package `os.path`
+
+Then use:
+
+```python
+import agPython
+```
+
+#  Contents
+
+###  fileOps
+
+###  dataOps
+
+#####  dataClass
 data classes in for easier data manipulation
 
-####  dicomClass
+#####  dicomClass
 subset of full DICOM data class for easier handling
 
-####  dataSmooth
+#####  dataSmooth
 data smoothing functions
 
-####  dataFit
+#####  dataFit
 methods for fitting data
 
-##  pbtOps
+###  pbtOps
 
-##  mcOps
+###  mcOps
 
+
+#  Known Issues
 
 # Licence
 
