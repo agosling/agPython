@@ -1,19 +1,52 @@
-#  Packages
+# agPython
 
-These packages have been developed to help me in coding.
+These are a whole range of small sub-functions I have created to help me programming.  
+Many of these rely on others within the package.  I have tried to keep it as function based as possible - forking components where I feel it is possible.
+
+*BADGES* - can add badges of metadata such as version info  ([shields.io](https://shields.io/) gives many good options).
+
+## Components
 
 | fileOps | | dataOps | | pbtOps  | |  mcOps  | |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | | | `dataClass`  | TWODdata  | | | | |
 | | |              | W2CADdata | | | | |
-| | | `dicomClass` | | | | | |
-| | | `dataSmooth` | | | | | |
+| | |              | pbtDICOM  | | | | |
+| | | `dataManip` | | | | | |
 | | | `dataFit`    | | | | | |
 
+###  fileOps
+
+###  dataOps
+
+**dataClass**  -
+data classes in for easier data manipulation
+
+**dataManip** -
+data manipulation functions, currently for smoothing
+
+**dataFit** -
+methods for fitting data
+
+###  pbtOps
+
+### mcOps
+
+# Installation
+
+Clone the repo to a location on your system.
+
+## Requirements
+
+Any specifics, dependencies, use of PipEnv/requirements files
+
+## Tests
+
+Included tests, how to use them, what results to expect
 
 # Usage
 
-After cloning to your computer, you must point future python programmes to these files.  Either add the location of these files to your `$PATH` or use the following commands at the start of each new python programme:
+Point future python programmes to these files location.  Either add the location of these files to your `$PATH` or use the following commands at the start of each new python programme:
 
 ``` python
 from sys import path as sysPath
@@ -28,38 +61,22 @@ Then use:
 import agPython
 ```
 
-#  Contents
+# Limitations / Known Bugs
 
-###  fileOps
+Anything you know doesn't work
 
-###  dataOps
+# Contribute
 
-#####  dataClass
-data classes in for easier data manipulation
+Pull requests are welcome.  
+For major changes, please open a ticket first to discuss desired changes:  [agPython/issues](http://github.com/agosling/agPython/issues)
 
-#####  dicomClass
-subset of full DICOM data class for easier handling
-
-#####  dataSmooth
-data smoothing functions
-
-#####  dataFit
-methods for fitting data
-
-###  pbtOps
-
-###  mcOps
-
-
-#  Known Issues
+If making changes, please check all tests and add if required.
 
 # Licence
 
 All code within this package distributed under [GNU GPL-3.0 (or higher)](https://opensource.org/licenses/GPL-3.0).
 
 Full license text contained within the file LICENCE.
-
-The below text should be included at the start of each file.
 
 ###  (C) License for all programmes
 
