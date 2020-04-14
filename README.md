@@ -9,11 +9,12 @@ Many of these rely on others within the package.  I have tried to keep it as fun
 
 | fileOps | | dataOps | | pbtOps  | |  mcOps  | |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| | | `dataClass`  | TWODdata  | | | | |
-| | |              | W2CADdata | | | | |
-| | |              | pbtDICOM  | | | | |
-| | | `dataManip` | | | | | |
-| | | `dataFit`    | | | | | |
+| | | `dataClass` | TWODdata  | | | | |
+| | |             | W2CADdata | | | | |
+| | |             | pbtDICOM  | | | | |
+| | | `dataFit` | | | | | |
+| | | `dataManip`  | basicSmooth| | | | |
+| | |              | centralisedSmooth| | | | |
 
 ###  fileOps
 
@@ -38,7 +39,23 @@ Clone the repo to a location on your system.
 
 ## Requirements
 
-Any specifics, dependencies, use of PipEnv/requirements files
+Current laptop `pip freeze`
+
+```
+cycler==0.10.0
+easygui==0.98.1
+kiwisolver==1.0.1
+matplotlib==3.0.0
+numpy==1.15.2
+pandas==0.23.4
+pydicom==1.2.2
+pyparsing==2.2.1
+python-dateutil==2.7.3
+pytz==2018.7
+scipy==1.1.0
+seaborn==0.9.0
+six==1.11.0
+```
 
 ## Tests
 

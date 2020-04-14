@@ -15,18 +15,15 @@
 
 
 
-###  A 2D data class
-  #  data stored in both row and column format for easy manipulation
-  #  data read into this format by many of fileOps packages
+###  a simple centralised 1D data smoothing function
+  #  input is the data in list format and a numerical width
+  #  smoothing is width range either side of each data point
 
 
 
 
 
-class TWODdata:
-    def __init__(self):
-        self.head = []
-        self.colTitle = []
-        self.rowTitle = []
-        self.row = []
-        self.column = []
+def basicSmooth(d=None, w=None):
+
+    s = [sum(d[_-w:_+w+1])/(2*w) for _ in range(len(d))]
+    return(s)

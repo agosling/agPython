@@ -18,9 +18,11 @@
 ###  A subset of the full pyDicom data class
   #  Built to work with the programme dicomRead.py
 
-#  Starts with PLANdata
-#  For each beam, will extend the plan.beam[] list filling each with BEAMdata
-#  For each control point within a beam, extend the beam.CP[] list item filling each with SPOTdata
+  #  Starts with PLANdata
+  #  For each beam, will extend the plan.beam[] list filling each with BEAMdata
+  #  For each control point within a beam, extend the beam.CP[] list item filling each with SPOTdata
+
+
 
 
 
@@ -29,6 +31,7 @@ class PLANdata:
         self.pName = ''  # the name of the plan
         self.numBeams = ''  # number of beams
         self.beam = []  # list container to expand for each beam
+
 
 
 class BEAMdata:
@@ -42,6 +45,7 @@ class BEAMdata:
         self.numCP = ''  # number of control points for the beam
                          # each pair CP is an energy layer
         self.CP = []
+
 
 
 class SPOTdata:

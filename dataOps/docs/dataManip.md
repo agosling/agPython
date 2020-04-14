@@ -1,34 +1,32 @@
-# dataClass
+# dataManip
 
-Custom built data classes I use in my programmes
+Brief description of the package/programme etc.
 
 *BADGES* - can add badges of metadata such as version info  ([shields.io](https://shields.io/) gives many good options).
 
 ### Components
 
-**pbtDICOM** -
-a subset of the full pyDicom data class to make it easier to handle the
-important parts of the data
+**basicSmooth** -
+A simple 1D smoothing function allowing variable width smoothing range.
 
-**TWODdata** -
-a simple 2D data set class that allows calling as either columns or rows
-
-**W2CADdata** -
-a specific class for the w2cad data format used as input to Varian TPS.
-Each row contains an X, Y, Z, and dose/value component.
-Also has a header for the whole file, and params for each entry in the file.
+**centralisedSmooth** -
+A more complex smoothing function.  Smooths with a triangular weighting function centred on the mid point.
 
 ## Installation
 
-See the agPython README.md file
+Steps to take to install
 
 ### Requirements
 
-non known
+Requires the following packages - version numbers included but may not be mandatory
+
+```
+numpy==1.15.2
+```
 
 ### Tests
 
-not currently
+Included tests, how to use them, what results to expect
 
 ## Usage
 
@@ -38,7 +36,7 @@ Examples of what it can do
 
 ## Limitations / Known Bugs
 
-non known
+Anything you know doesn't work
 
 ## Contribute
 
