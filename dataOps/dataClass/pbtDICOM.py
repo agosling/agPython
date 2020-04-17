@@ -19,8 +19,8 @@
   #  Built to work with the programme dicomRead.py
 
   #  Starts with PLANdata
-  #  For each beam, will extend the plan.beam[] list filling each with BEAMdata
-  #  For each control point within a beam, extend the beam.CP[] list item filling each with SPOTdata
+  #  For each beam, extend plan.beam[] list filling each with BEAMdata
+  #  For each control point, extend beam.CP[] filling each with SPOTdata
 
 
 

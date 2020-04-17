@@ -9,14 +9,20 @@ Many of these rely on others within the package.  I have tried to keep it as fun
 
 | fileOps | | dataOps | | pbtOps  | |  mcOps  | |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| | | `dataClass` | TWODdata  | | | | |
-| | |             | W2CADdata | | | | |
-| | |             | pbtDICOM  | | | | |
-| | | `dataFit` | | | | | |
-| | | `dataManip`  | basicSmooth| | | | |
-| | |              | centralisedSmooth| | | | |
+| `legacy`| fileSplit | `dataClass` | TWODdata | | | | TPStoMC |
+| | selectFile | | W2CADdata | | | | |
+| | | | pbtDICOM | | | | |
+| | | `dataFit` | dosePosition | | | | |
+| | | | fitGaussian | | | | |
+| | | | fitLine | | | | |
+| | | | surface1st/2nd/3rdOrder| | | | |
+| | | `dataManip` | basicSmooth| | | | |
+| | | | centralisedSmooth| | | | |
 
 ###  fileOps
+
+**legacy** -
+older files that are now semi-redundant, kept to maintain older
 
 ###  dataOps
 
