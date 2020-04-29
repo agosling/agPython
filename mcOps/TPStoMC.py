@@ -22,13 +22,13 @@
 
 
 
-def TPStoMC(E_TPS=None, model=None)
+def TPStoMC(E_TPS=None, model=None):
 
     if E_TPS == None:
         print('No TPS energy value, exiting...')
         exit()
 
-    if model == (None or 'SPTC'):
+    if model == None or model == 'SPTC':
         eng = [1.5803, 0.9716]  #  v1
         dsp = [0.1884, 0.0176, -7e-5]  #  v1
         # sxy = [+7.11157e+0, -5.09243e-2, +2.42477e-4, -3.83578e-7]  #  v2 [1e5 histories]
@@ -46,6 +46,7 @@ def TPStoMC(E_TPS=None, model=None)
                +1.51294106e-10, -4.26541053e-13, +6.87797496e-16,
                -4.83859457e-19]  #  v3 [5e5 histories]
 
+    energy, dispersion, sigmaXY, thetaPhi, emittance = 0,0,0,0,0
     for pwr,cof in enumerate(eng):
         energy += cof*E_TPS**pwr
     for pwr,cof in enumerate(dsp):
