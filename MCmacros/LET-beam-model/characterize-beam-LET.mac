@@ -1,0 +1,159 @@
+#  use to construct geometry and run SIMULATION
+#  run with command:  gate -a '[parm,val]' NAME.mac > dir/term-out.txt &
+#  multiple paramters must be listed as '[parm1,val1] [parm2,val2] ...'
+
+# n is the number of the run, for use when splitting a sim for speed
+# will then need to use gateOutputOps.py to combine dose files to single
+# gate -a '[n,N] [ene,E] [disp,D] [sigXY,S] [thetaphi,T] [emit,E] [focus,F]' characterize-beam-LET.mac
+
+/control/alias   n 1
+
+/control/alias   ene 156.264
+/control/alias   disp 1.3197
+/control/alias   ene 200
+/control/alias   disp 1.5
+
+/control/alias   sigXY 1.0
+/control/alias   thetaphi 1.0
+/control/alias   emit 0.1
+/control/alias   focus positive
+
+
+###  CHEMISTRY
+/gate/geometry/setMaterialDatabase ./GateMaterials.db.usr
+
+
+
+###  GEOMETRY
+/gate/world/geometry/setXLength   500. mm
+/gate/world/geometry/setYLength   500. mm
+/gate/world/geometry/setZLength   1000. mm
+/gate/world/setMaterial           Air
+
+/gate/world/daughters/name        water
+/gate/world/daughters/insert      box
+/gate/water/geometry/setXLength   400. mm
+/gate/water/geometry/setYLength   400. mm
+/gate/water/geometry/setZLength   400. mm
+/gate/water/setMaterial           Water
+/gate/water/vis/setVisible        1
+/gate/water/vis/setColor          blue
+/gate/water/vis/forceWireframe
+#  shift so entrance at isocentre of 'world'
+/gate/water/placement/setTranslation   0. 0. 200. mm
+
+
+
+#######################################
+#    additional geometries go here    #
+#    dose actors goe here as well     #
+#######################################
+
+
+# can't run both bragg peak and screens simultaneously as get no signal from within the bragg peak chamber
+# bragg peak data can kind of be recreated from the condensed water cube so will use that instead
+# # 1D dose and LET profiles (TPS input)
+# /control/execute   ./braggPeakChamber.mac
+/control/execute   ./doseCube-ene-disp.mac
+/control/execute   ./LETcube-ene-disp.mac
+
+# /control/execute   ./doseIDD-ene-disp.mac
+# /control/execute   ./LETIDD-ene-disp.mac
+#
+# # image the dose deposition in the water cube
+# /control/alias   SC WCxz
+# /control/execute   ./dosePlane-waterCube.mac
+# /gate/actor/spotProfile{SC}/setResolution      4000 1 4000
+# # /gate/actor/spotProfile{SC}/setResolution      1000 1000 4000
+# /control/execute   ./LETplane-waterCube.mac
+# /gate/actor/LETprofile{SC}/setResolution       4000 1 4000
+
+
+
+
+
+# # trying to filter to remove low depth bump in LET
+# /gate/actor/addActor                             KillActor   killAct
+# /gate/actor/killAct/attachTo                     world
+# # /gate/actor/killAct/save                         MyOutputFile.txt
+#
+# /gate/actor/killAct/addFilter                    IDFilter
+# /gate/actor/killAct/IDFilter/selectParentID      1
+
+# /gate/actor/killAct/addFilter                    particleFilter
+# /gate/actor/killAct/particleFilter/addParticle   photon
+# /gate/actor/killAct/particleFilter/addParticle   e-
+
+
+
+
+
+###  Initialize the PHYSICS
+#  QGSP_BIC_EMZ is preferred option for RT-ION
+
+/gate/physics/addPhysicsList   QGSP_BIC_EMZ
+
+/control/alias   cut 1.0
+
+/gate/physics/Gamma/SetCutInRegion      water {cut} mm
+/gate/physics/Electron/SetCutInRegion   water {cut} mm
+/gate/physics/Positron/SetCutInRegion   water {cut} mm
+# could perhaps increase the size of this step to speed up simulation
+/gate/physics/SetMaxStepSizeInRegion    world 10 mm
+
+
+
+
+
+
+
+
+###  INITIALIZE SIMULATION
+/gate/run/initialize
+
+
+
+########################
+#    setup the BEAM    #
+########################
+
+/control/alias PB 1  #  beam number if multiple beams
+/control/execute ./pencilBeam-ene-disp-sigXY-thetaphi-emit-focus.mac
+/control/alias X 0.
+/control/alias Y 0.
+# /control/alias Z -450.
+/control/alias Z 0.
+/gate/source/pncBm{PB}/setPosition {X} {Y} {Z} mm  #  -ve Z towards beam source
+
+
+
+# ###  VISUALIZATION
+/control/execute   ../visSim.mac
+# /vis/open   OGL
+# /vis/drawVolume
+# /vis/viewer/flush
+# /vis/scene/add/trajectories
+# /vis/scene/endOfEventAction   accumulate 0
+# # /vis/viewer/zoom 1.5
+# #  Theta controls rot around up-down axis, 0 looking down z axis
+# #  Phi controls rot around horizontal axis
+# /vis/viewer/set/viewpointThetaPhi 70 30
+# # /vis/viewer/panTo -100 0 mm
+# #  filter out photons from visualisation for clarity
+# /vis/filtering/trajectories/create/particleFilter
+# /vis/filtering/trajectories/particleFilter-0/add proton
+# /vis/filtering/trajectories/particleFilter-0/add e-
+
+
+
+###  setup the SIMULATION
+/gate/random/setEngineName MersenneTwister
+/gate/random/setEngineSeed auto
+/gate/application/setTotalNumberOfPrimaries 1e3  # 1e5 approx 20 min per core w 1mm cut
+/gate/application/noGlobalOutput
+
+/gate/application/start
+
+/control/shell touch output/gate.done.{n}.txt
+
+exit

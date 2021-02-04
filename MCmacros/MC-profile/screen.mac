@@ -1,0 +1,17 @@
+#  Lynx screen surrogate - 300x300mm rectangle of water material
+#  useage:
+#/control/alias SC <N>
+#/control/execute   ./screen.mac
+#/gate/screen{SC}/placement/setTranslation X Y Z mm
+
+/gate/world/daughters/name             screen{SC}
+/gate/world/daughters/insert           box
+/gate/screen{SC}/geometry/setXLength   100.  mm
+/gate/screen{SC}/geometry/setYLength   100.  mm
+###  increased thickness from 0.1 to 11.1 mm for higher S/N
+/gate/screen{SC}/geometry/setZLength    11.1 mm
+# /gate/screen{SC}/setMaterial           Water
+/gate/screen{SC}/setMaterial           Air
+/gate/screen{SC}/vis/setVisible        1
+/gate/screen{SC}/vis/setColor          yellow
+/gate/screen{SC}/vis/forceWireframe

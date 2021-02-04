@@ -1,0 +1,17 @@
+#  bragg peak chamber dose scoring, 0.1 mm resolution
+#/control/execute   ./doseCube-ene-disp.mac
+
+/gate/actor/addActor                         DoseActor doseCube
+/gate/actor/doseCube/save                    output/doseCube-{ene}-{disp}-{n}.mhd
+/gate/actor/doseCube/attachTo                water
+# /gate/actor/doseCube/attachTo                braggPeakChamber
+/gate/actor/doseCube/stepHitType             random
+/gate/actor/doseCube/setPosition             0. 0. 0. mm
+/gate/actor/doseCube/setResolution           400 400 400
+# /gate/actor/doseCube/voxelsize               1. 1. 1. mm
+
+/gate/actor/doseCube/enableDose              false
+/gate/actor/doseCube/enableUncertaintyDose   false
+/gate/actor/doseCube/normaliseDoseToMax      false   # only for enableDose, doesn't work for enableDoseToWater
+
+/gate/actor/doseCube/enableDoseToWater       true

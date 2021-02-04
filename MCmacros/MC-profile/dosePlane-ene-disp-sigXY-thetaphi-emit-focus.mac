@@ -1,0 +1,19 @@
+#  dose plane scoring to produce image of delivered dose
+#  resolution of image 1x1x0.1 mm cubes
+#  useage:
+#/control/alias     SC <N>  #  must be same SC as linked screen
+#/control/alias   size <S>
+#/control/alias   thetaphi <T>
+#/control/alias   emit <E>
+#/control/execute   ./dosePlane-size-theta-phi.mac
+
+
+/gate/actor/addActor                    DoseActor   spotProfile{SC}
+/gate/actor/spotProfile{SC}/save                    output/dosePlane{SC}-{ene}-{disp}-{sigXY}-{thetaphi}-{emit}-{focus}.txt
+/gate/actor/spotProfile{SC}/attachTo                screen{SC}
+/gate/actor/spotProfile{SC}/stepHitType             random
+/gate/actor/spotProfile{SC}/setPosition             0. 0. 0. mm
+/gate/actor/spotProfile{SC}/setResolution           1000. 1000. 1.
+/gate/actor/spotProfile{SC}/enableDose              true
+/gate/actor/spotProfile{SC}/enableUncertaintyDose   true
+/gate/actor/spotProfile{SC}/normaliseDoseToMax      true   # only for enableDose, doesn't work for enableDoseToWater

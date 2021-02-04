@@ -1,0 +1,8 @@
+#  ignoring any python execution created stuff
+__pycache__/
+
+#  trying to make sure ignores the Gate output files
+output*/
+
+#  also having issues with windows temporary files
+~$*

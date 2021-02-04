@@ -1,0 +1,36 @@
+### BEAM
+#  uses the pencil beam source type from Gate
+#  useage:
+#/control/alias   PB <N>  #  beam number if multiple beams
+#/control/alias   ene <E>
+#/control/alias   sig <S>
+#/control/alias   size <S>  #  setSigmaX/Y for initial spot size, mm
+#/control/alias   thetaphi <T>
+#/control/alias   emit <E>
+#/control/alias   focus <positive/negative>  #  convergent or divergent focus respectively
+#/control/execute ./pencilBeam-ene-sig-size-thetaphi-emit-focus.mac
+#/control/alias   X <X>
+#/control/alias   Y <Y>
+#/control/alias   Z <Z>
+#/gate/source/pncBm{PB}/setPosition {X} {Y} {Z} mm  #  -ve Z towards beam source
+
+/gate/source/addSource pncBm{PB} PencilBeam
+/gate/source/pncBm{PB}/setParticleType proton
+/gate/source/pncBm{PB}/setEnergy {ene} MeV
+/gate/source/pncBm{PB}/setSigmaEnergy {disp} MeV
+# The pencil beam shape is Gaussian. The spot size can is defined by the standard deviation of the normal probability density function in x and y directions. The beam default direction being +z.
+# using 3.5 mm spot sigma to represent our approximate 7 mm in air spot from the SPTC demo data
+/gate/source/pncBm{PB}/setSigmaX {sigXY} mm
+/gate/source/pncBm{PB}/setSigmaY {sigXY} mm
+
+# EVERYTHING BELOW HERE IS NOT OPTIMISED
+# The beam is also characterized by its divergences: Theta in the XoZ plan and Phi in the YoZ plan. The beam divergence is defined by the standard deviation of the normal probability density function:
+/gate/source/pncBm{PB}/setSigmaTheta {thetaphi} mrad
+/gate/source/pncBm{PB}/setSigmaPhi {thetaphi} mrad
+# The correlation between spot size and divergence (in the two plans) is characterized by the beam emittance. The beam emittance is defined by the standard deviation of the normal probability density function. The Emittance of the beam has to be lower (or equal) than the ellipse phase space area: [Emittance_X_Theta] <= Pi* [divergence_Theta] * [spot_size_X] and [Emittance_Y_Phi] <= Pi* [divergence_Phi] * [spot_size_Y].
+# Please note that for emittance, the unit cannot be selected and has to be "mm*mrad".
+/gate/source/pncBm{PB}/setEllipseXThetaEmittance {emit} mm*mrad
+/gate/source/pncBm{PB}/setEllipseYPhiEmittance {emit} mm*mrad
+# When defining the beam parameters, one can define the beam convergence or divergence in the two plans (XoZ and YoZ), by setting the "RotationNorm" either to "positive" for a convergent beam or to "negative" for a divergent beam.
+/gate/source/pncBm{PB}/setEllipseXThetaRotationNorm {focus}
+/gate/source/pncBm{PB}/setEllipseYPhiRotationNorm {focus}

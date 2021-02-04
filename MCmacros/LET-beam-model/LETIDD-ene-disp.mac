@@ -1,0 +1,17 @@
+#  LET depth scoring to produce graph of delivered LET
+#  condenses braggPeakChamber cylinder into depth axis
+#  useage:
+#/control/alias   ene <E>  #  must be same SC as linked screen
+#/control/alias   disp <D>  #  must be same SC as linked screen
+#/control/execute   ./LETIDD-{ene}-{disp}-{n}.mac
+
+/gate/actor/addActor                            LETActor   LETIDD
+/gate/actor/LETIDD/save                         output/LETIDD-{ene}-{disp}-{n}.txt
+/gate/actor/LETIDD/attachTo                     water
+# /gate/actor/LETIDD/attachTo                   braggPeakChamber
+/gate/actor/LETIDD/setResolution                1 1 4000
+/gate/actor/LETIDD/setType                      DoseAveraged
+/gate/actor/LETIDD/addFilter                    particleFilter
+/gate/actor/LETIDD/particleFilter/addParticle   proton
+/gate/actor/LETIDD/addFilter                    IDFilter
+/gate/actor/LETIDD/IDFilter/selectParentID      1

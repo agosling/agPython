@@ -1,0 +1,126 @@
+
+#=====================================================
+# VERBOSITY
+#=====================================================
+
+/control/execute mac/verbose.mac
+
+#=====================================================
+# VISUALISATION
+#=====================================================
+
+#/control/execute mac/visu.mac
+
+#=====================================================
+# GEOMETRY
+#=====================================================
+
+/gate/geometry/setMaterialDatabase data/GateMaterials.db
+
+# World
+/gate/world/geometry/setXLength 2 m
+/gate/world/geometry/setYLength 2 m
+/gate/world/geometry/setZLength 2 m
+/gate/world/setMaterial Air
+
+
+# Generate materials from Hounsfield units
+/gate/HounsfieldMaterialGenerator/SetMaterialTable data/UCLH2019MaterialsTable_v1.txt
+/gate/HounsfieldMaterialGenerator/SetDensityTable  data/UCLH2019DensitiesTable_v1.txt
+
+/gate/HounsfieldMaterialGenerator/SetDensityTolerance               0.1 g/cm3
+/gate/HounsfieldMaterialGenerator/SetOutputMaterialDatabaseFilename data/patient-HUmaterials.db
+/gate/HounsfieldMaterialGenerator/SetOutputHUMaterialFilename       data/patient-HU2mat.txt
+/gate/HounsfieldMaterialGenerator/Generate
+
+#########################################################
+# Create parameterized phantom object
+/gate/world/daughters/name                      patient
+/gate/world/daughters/insert                    ImageNestedParametrisedVolume
+/gate/geometry/setMaterialDatabase              data/patient-HUmaterials.db
+/gate/patient/geometry/setHUToMaterialFile      data/patient-HU2mat.txt
+
+
+/gate/patient/geometry/setImage                data/CT_zzzPaedCranio02.mhd
+
+
+# PATIENT SUPPORT ANGLE NOT WORKING!?
+/gate/patient/placement/setRotationAxis         0 1 0
+/gate/patient/placement/setRotationAngle    -30.0 deg
+/gate/patient/placement/setTranslation    11.15926879469982 96.96518982742998 -3.7266064747751964 mm
+
+#=====================================================
+# PHYSICS
+#=====================================================
+# (2 recommended lists for Gate RTIon)
+#/gate/physics/addPhysicsList QGSP_BIC_EMZ
+/gate/physics/addPhysicsList QBBC_EMZ
+
+/gate/physics/Gamma/SetCutInRegion      world 10 mm
+/gate/physics/Electron/SetCutInRegion   world 10 mm
+/gate/physics/Positron/SetCutInRegion   world 10 mm
+
+###   Recommended cut value = 0.001 mm??
+/gate/physics/Gamma/SetCutInRegion      patient 0.1 mm
+/gate/physics/Electron/SetCutInRegion   patient 0.1 mm
+/gate/physics/Positron/SetCutInRegion   patient 0.1 mm
+
+/gate/physics/displayCuts
+
+
+#=====================================================
+# DETECTORS
+#=====================================================
+
+/gate/actor/addActor                     DoseActor  dose3d
+/gate/actor/dose3d/save                  output/3d-pat.mhd
+/gate/actor/dose3d/attachTo    	         patient
+
+/gate/actor/dose3d/stepHitType           random
+#/gate/actor/dose3d/setResolution         100 100 100
+/gate/actor/dose3d/setVoxelSize         1.664 1.664 3.0 mm
+/gate/actor/dose3d/saveEveryNSeconds     60
+/gate/actor/dose3d/enableEdep            true
+/gate/actor/dose3d/enableUncertaintyEdep false
+/gate/actor/dose3d/enableDose            true
+/gate/actor/dose3d/enableUncertaintyDose false
+/gate/actor/dose3d/enableNumberOfHits    false
+/gate/actor/dose3d/normaliseDoseToMax    false
+
+
+/gate/actor/addActor               SimulationStatisticActor stat
+/gate/actor/stat/save              output/stat-pat.txt
+/gate/actor/stat/saveEveryNSeconds 60
+
+
+#=====================================================
+# INITIALISATION
+#=====================================================
+
+/gate/run/initialize
+
+
+#=====================================================
+# SOURCE
+#=====================================================
+/gate/source/addSource PBS TPSPencilBeam
+/gate/source/PBS/setParticleType proton
+/gate/source/PBS/setPlan    data/PlanDescFile_Field1.txt
+/gate/source/PBS/setSpotIntensityAsNbIons false
+
+/gate/source/PBS/setSigmaEnergyInMeVFlag false
+/gate/source/PBS/setSortedSpotGenerationFlag false
+/gate/source/PBS/setFlatGenerationFlag false
+/gate/source/PBS/setBeamConvergence true
+/gate/source/PBS/setSourceDescriptionFile    data/SourceDescFile_Field1.txt
+
+#=====================================================
+# START BEAMS
+#=====================================================
+
+/gate/random/setEngineName MersenneTwister
+/gate/random/setEngineSeed auto
+
+/control/alias   prim   1e3
+/gate/application/setTotalNumberOfPrimaries {prim}
+/gate/application/start

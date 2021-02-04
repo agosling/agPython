@@ -1,0 +1,23 @@
+###  output the dose measured within the "roos" volume
+  #  requires the input of the TPS energy being used
+  #  requires the input of the number of primaries
+
+
+/gate/actor/addActor                    DoseActor   roosDose
+/gate/actor/roosDose/attachTo                       roos
+/gate/actor/roosDose/save                           output/roosDose-{etps}-{prim}.txt
+
+/gate/actor/roosDose/stepHitType                    random
+/gate/actor/roosDose/setPosition                    0. 0. 0. mm
+/gate/actor/roosDose/setResolution                  1 1 1
+
+/gate/actor/roosDose/enableEdep                     false
+/gate/actor/roosDose/enableUncertaintyEdep          false
+/gate/actor/roosDose/enableSquaredEdep              false
+/gate/actor/roosDose/enableDose                     true
+/gate/actor/roosDose/enableUncertaintyDose          false
+/gate/actor/roosDose/enableSquaredDose              false
+/gate/actor/roosDose/enableNumberOfHits             false
+/gate/actor/roosDose/enableDoseToWater              true
+/gate/actor/roosDose/enableUncertaintyDoseToWater   false
+/gate/actor/roosDose/enableSquaredDoseToWater       false

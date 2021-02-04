@@ -1,0 +1,16 @@
+#  bragg peak chamber dose scoring, 0.1 mm resolution
+#/control/execute   ./doseIDD-ene-disp.mac
+
+/gate/actor/addActor                        DoseActor doseIDD
+/gate/actor/doseIDD/save                    output/doseIDD-{ene}-{disp}-{n}.txt
+/gate/actor/doseIDD/attachTo                water
+# /gate/actor/doseIDD/attachTo                braggPeakChamber
+/gate/actor/doseIDD/stepHitType             random
+/gate/actor/doseIDD/setPosition             0. 0. 0. mm
+/gate/actor/doseIDD/setResolution           1 1 4000
+
+/gate/actor/doseIDD/enableDose              false
+/gate/actor/doseIDD/enableUncertaintyDose   false
+/gate/actor/doseIDD/normaliseDoseToMax      false   # only for enableDose, doesn't work for enableDoseToWater
+
+/gate/actor/doseIDD/enableDoseToWater       true

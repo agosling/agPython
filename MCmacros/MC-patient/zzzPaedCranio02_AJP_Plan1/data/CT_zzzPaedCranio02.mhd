@@ -1,0 +1,13 @@
+ObjectType = Image
+NDims = 3
+BinaryData = True
+BinaryDataByteOrderMSB = False
+CompressedData = False
+TransformMatrix = 1 0 0 0 1 0 0 0 1
+Offset = -212.583984375 -427.583984375 -111 
+CenterOfRotation = 0 0 0
+AnatomicalOrientation = RAI
+ElementSpacing = 0.83203125 0.83203125 3
+DimSize = 512 512 81
+ElementType = MET_SHORT
+ElementDataFile = CT_zzzPaedCranio02.raw

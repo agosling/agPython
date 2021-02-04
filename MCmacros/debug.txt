@@ -1,0 +1,95 @@
+> python iterativeMCmatch.py 
+I/O warning : failed to load external entity "./Materials.xml"
+I/O warning : failed to load external entity "./Materials.xml"
+I/O warning : failed to load external entity "./Materials.xml"
+I/O warning : failed to load external entity "./Materials.xml"
+277:   [[9.814117078655999, 0.02117216957238129], [10.795528786521599, 0.008237143965881601]]
+280:  FITeqn
+  
+-0.01318 x + 0.1505
+290:  new GATEinput['thetaphi'] -  10.48943616306472
+I/O warning : failed to load external entity "./Materials.xml"
+I/O warning : failed to load external entity "./Materials.xml"
+277:   [[9.814117078655999, 0.02117216957238129], [10.795528786521599, 0.008237143965881601], [10.48943616306472, 0.004400266789033064]]
+280:  FITeqn
+  
+-0.0151 x + 0.1678
+290:  new GATEinput['thetaphi'] -  10.300034459075093
+I/O warning : failed to load external entity "./Materials.xml"
+I/O warning : failed to load external entity "./Materials.xml"
+277:   [[9.814117078655999, 0.02117216957238129], [10.795528786521599, 0.008237143965881601], [10.48943616306472, 0.004400266789033064], [10.300034459075093, 0.012406464042244892]]
+280:  FITeqn
+  
+-0.01511 x + 0.168
+290:  new GATEinput['thetaphi'] -  10.302311224010799
+I/O warning : failed to load external entity "./Materials.xml"
+I/O warning : failed to load external entity "./Materials.xml"
+277:   [[9.814117078655999, 0.02117216957238129], [10.795528786521599, 0.008237143965881601], [10.48943616306472, 0.004400266789033064], [10.300034459075093, 0.012406464042244892], [10.302311224010799, 0.013709349139390396]]
+280:  FITeqn
+  
+-0.01522 x + 0.1694
+290:  new GATEinput['thetaphi'] -  10.321471759713175
+I/O warning : failed to load external entity "./Materials.xml"
+I/O warning : failed to load external entity "./Materials.xml"
+277:   [[9.814117078655999, 0.02117216957238129], [10.795528786521599, 0.008237143965881601], [10.48943616306472, 0.004400266789033064], [10.300034459075093, 0.012406464042244892], [10.302311224010799, 0.013709349139390396], [10.321471759713175, 0.020364002024528028]]
+280:  FITeqn
+  
+-0.01547 x + 0.1733
+290:  new GATEinput['thetaphi'] -  10.408907652099234
+I/O warning : failed to load external entity "./Materials.xml"
+I/O warning : failed to load external entity "./Materials.xml"
+277:   [[9.814117078655999, 0.02117216957238129], [10.795528786521599, 0.008237143965881601], [10.48943616306472, 0.004400266789033064], [10.300034459075093, 0.012406464042244892], [10.302311224010799, 0.013709349139390396], [10.321471759713175, 0.020364002024528028], [10.408907652099234, -0.004552662446430473]]
+280:  FITeqn
+  
+-0.01748 x + 0.1917
+290:  new GATEinput['thetaphi'] -  10.264354024861495
+I/O warning : failed to load external entity "./Materials.xml"
+I/O warning : failed to load external entity "./Materials.xml"
+277:   [[9.814117078655999, 0.02117216957238129], [10.795528786521599, 0.008237143965881601], [10.48943616306472, 0.004400266789033064], [10.300034459075093, 0.012406464042244892], [10.302311224010799, 0.013709349139390396], [10.321471759713175, 0.020364002024528028], [10.408907652099234, -0.004552662446430473], [10.264354024861495, 0.008007336276770406]]
+280:  FITeqn
+  
+-0.01689 x + 0.185
+290:  new GATEinput['thetaphi'] -  10.2302278330737
+I/O warning : failed to load external entity "./Materials.xml"
+I/O warning : failed to load external entity "./Materials.xml"
+Traceback (most recent call last):
+  File "iterativeMCmatch.py", line 272, in <module>
+    MCXfit, MCXeqn, MCrecord = simFitFWHM(Ginput=GATEinput, pos=position)
+  File "iterativeMCmatch.py", line 152, in simFitFWHM
+    currFit = genMeasureFWHM(input=Ginput)
+  File "iterativeMCmatch.py", line 128, in genMeasureFWHM
+    gFit.append(measureMCgaussian(outFile))
+  File "iterativeMCmatch.py", line 54, in measureMCgaussian
+    data = dataRead(file, ['#', ' ', 'n', 'n'])
+  File "/home/gate/coding/packages/fileOps/fileReadWrite.py", line 116, in dataRead
+    with open(file) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/gate/coding/monteCarlo/MC-profile/output/dosePlane1-69.39452-1.08082-5.2077-10.23023-167.78414-positive-Dose.txt'
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/apport_python_hook.py", line 63, in apport_excepthook
+    from apport.fileutils import likely_packaged, get_recent_crashes
+  File "/usr/lib/python3/dist-packages/apport/__init__.py", line 5, in <module>
+    from apport.report import Report
+  File "/usr/lib/python3/dist-packages/apport/report.py", line 30, in <module>
+    import apport.fileutils
+  File "/usr/lib/python3/dist-packages/apport/fileutils.py", line 23, in <module>
+    from apport.packaging_impl import impl as packaging
+  File "/usr/lib/python3/dist-packages/apport/packaging_impl.py", line 24, in <module>
+    import apt
+  File "/usr/lib/python3/dist-packages/apt/__init__.py", line 23, in <module>
+    import apt_pkg
+ModuleNotFoundError: No module named 'apt_pkg'
+
+Original exception was:
+Traceback (most recent call last):
+  File "iterativeMCmatch.py", line 272, in <module>
+    MCXfit, MCXeqn, MCrecord = simFitFWHM(Ginput=GATEinput, pos=position)
+  File "iterativeMCmatch.py", line 152, in simFitFWHM
+    currFit = genMeasureFWHM(input=Ginput)
+  File "iterativeMCmatch.py", line 128, in genMeasureFWHM
+    gFit.append(measureMCgaussian(outFile))
+  File "iterativeMCmatch.py", line 54, in measureMCgaussian
+    data = dataRead(file, ['#', ' ', 'n', 'n'])
+  File "/home/gate/coding/packages/fileOps/fileReadWrite.py", line 116, in dataRead
+    with open(file) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/gate/coding/monteCarlo/MC-profile/output/dosePlane1-69.39452-1.08082-5.2077-10.23023-167.78414-positive-Dose.txt'

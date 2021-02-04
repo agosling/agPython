@@ -1,0 +1,15 @@
+#  LET plane scoring to produce image of delivered LET
+#  condenses water box into a plane
+#  useage:
+#/control/alias   SC <N>  #  must be same SC as linked screen
+#/control/execute   ./LETplane-generic.mac
+
+/gate/actor/addActor                                    LETActor   LETprofile{SC}
+/gate/actor/LETprofile{SC}/save                         output/LETprofile{SC}-{ene}-{n}.txt
+/gate/actor/LETprofile{SC}/attachTo                     water
+# /gate/actor/LETprofile{SC}/setResolution                400 1 400
+/gate/actor/LETprofile{SC}/setType                      DoseAveraged
+/gate/actor/LETprofile{SC}/addFilter                    particleFilter
+/gate/actor/LETprofile{SC}/particleFilter/addParticle   proton
+/gate/actor/LETprofile{SC}/addFilter                    IDFilter
+/gate/actor/LETprofile{SC}/IDFilter/selectParentID      1

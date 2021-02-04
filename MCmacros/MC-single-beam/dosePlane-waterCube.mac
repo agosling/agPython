@@ -1,0 +1,18 @@
+#  dose plane scoring to produce image of delivered dose
+#  condenses water box into a plane
+#  useage:
+#/control/alias   SC <N>  #  must be same SC as linked screen
+#/control/execute   ./dosePlane-generic.mac
+
+/gate/actor/addActor                                DoseActor spotProfile{SC}
+/gate/actor/spotProfile{SC}/save                    output/dosePlane{SC}-{ene}-{disp}-{n}.txt
+/gate/actor/spotProfile{SC}/attachTo                water
+/gate/actor/spotProfile{SC}/stepHitType             random
+/gate/actor/spotProfile{SC}/setPosition             0. 0. 0. mm
+# /gate/actor/spotProfile{SC}/setResolution           400 1 400
+
+/gate/actor/spotProfile{SC}/enableDose              false
+/gate/actor/spotProfile{SC}/enableUncertaintyDose   false
+/gate/actor/spotProfile{SC}/normaliseDoseToMax      false   # only for enableDose, doesn't work for enableDoseToWater
+
+/gate/actor/spotProfile{SC}/enableDoseToWater       true

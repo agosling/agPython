@@ -1,0 +1,21 @@
+#  dose plane scoring to produce image of delivered dose
+#  resolution of image 1x1x0.1 mm cubes
+#  useage:
+#  must have alias for all of the beam parameters - ene, disp, sigXY, thetaphi, emit, focus
+#  can attach either to world or water depending on geometry setup
+#  /control/alias   res  <SIZE>  #  optional resolution adjustment
+#/control/execute   ./dosePlane-size-theta-phi.mac
+
+
+/gate/actor/addActor               DoseActor   doseVolume
+/gate/actor/doseVolume/save                    output/doseVol-{ene}-{disp}-{sigXY}-{thetaphi}-{emit}-{focus}.mhd
+/gate/actor/doseVolume/attachTo                world
+# /gate/actor/doseVolume/attachTo              water
+/gate/actor/doseVolume/stepHitType             random
+/gate/actor/doseVolume/setPosition             0. 0. 0. mm
+# /gate/actor/doseVolume/setVoxelSize            0.5 0.5 0.5 mm
+/gate/actor/doseVolume/setVoxelSize            0.5 0.5 0.5 mm
+# /gate/actor/doseVolume/setVoxelSize            {res} {res} {res} mm
+/gate/actor/doseVolume/enableDose              true
+/gate/actor/doseVolume/enableUncertaintyDose   true
+/gate/actor/doseVolume/normaliseDoseToMax      true   # only for enableDose, doesn't work for enableDoseToWater

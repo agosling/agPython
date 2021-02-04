@@ -1,0 +1,128 @@
+#  use to construct geometry and run SIMULATION
+#  run with command:  gate -a '[parm,val]' NAME.mac > dir/term-out.txt &
+#  collection of parameters must be within ''
+
+#gate -a '[run,N] [ene,EN] [disp,DI] [sigXY,SI] [thetaphi,TP] [emit,E] [focus,positive]' characterize-beam-profile.mac > outputN/term-out.txt &
+
+
+
+
+# /control/alias   ene 155
+# /control/alias   disp 1.3
+# /control/alias   sigXY 3.5  #  setSigmaX/Y for initial spot size, mm
+# /control/alias   thetaphi 3.5
+# /control/alias   emit 30.
+# /control/alias   focus positive  #  +ve/-ve for convergent/divergent focus resp.
+
+
+
+
+
+###  CHEMISTRY
+# /gate/geometry/setMaterialDatabase   ./GateMaterials.db
+# /gate/geometry/setMaterialDatabase   ./GateMaterials.db.usr
+/gate/geometry/setMaterialDatabase   ../GateMaterials.db.usr
+
+
+
+###  GEOMETRY
+/gate/world/geometry/setXLength    100. mm
+/gate/world/geometry/setYLength    100. mm
+/gate/world/geometry/setZLength   2000. mm
+/gate/world/setMaterial            Air
+
+#######################################
+#    additional geometries go here    #
+#    dose actors go here as well      #
+#######################################
+
+
+
+/gate/world/daughters/name       room
+/gate/world/daughters/insert      box
+/gate/room/geometry/setXLength    100. mm
+/gate/room/geometry/setYLength    100. mm
+/gate/room/geometry/setZLength   2000. mm
+/gate/room/setMaterial            Air
+
+
+
+/control/alias     res   10.
+/gate/actor/addActor               DoseActor   doseVolume
+/gate/actor/doseVolume/save                    output/doseVol-{ene}-{disp}-{sigXY}-{thetaphi}-{emit}-{focus}.mhd
+/gate/actor/doseVolume/attachTo                room
+/gate/actor/doseVolume/setResolution           50 50 1000
+# /gate/actor/doseVolume/setSize                 100. 100. 2000. mm
+# /gate/actor/doseVolume/setVoxelSize            {res} {res} {res} mm
+# /gate/actor/doseVolume/setPosition             0. 0. 0. mm
+/gate/actor/doseVolume/stepHitType             random
+/gate/actor/doseVolume/enableDose              true
+/gate/actor/doseVolume/enableUncertaintyDose   true
+/gate/actor/doseVolume/normaliseDoseToMax      true   # not for enableDoseToWater
+
+
+/gate/actor/addActor SimulationStatisticActor   simStats
+/gate/actor/simStats/save                       output/simStats.txt
+# /gate/actor/simStats/save                       simStats.txt
+/gate/actor/simStats/saveEveryNSeconds          10
+
+
+
+
+
+
+#############################################################################
+###  Initialize the PHYSICS
+#  QGSP_BIC_EMZ is preferred option for RT-ION
+
+/control/alias   cut 1.0
+
+/gate/physics/addPhysicsList   QGSP_BIC_EMZ
+
+/gate/physics/Gamma/SetCutInRegion      world {cut} mm
+/gate/physics/Electron/SetCutInRegion   world {cut} mm
+/gate/physics/Positron/SetCutInRegion   world {cut} mm
+# could perhaps increase the size of this step to speed up simulation
+/gate/physics/SetMaxStepSizeInRegion    world 1 mm
+
+/gate/physics/SetMaxStepSizeInRegion    world {cut} mm
+# /gate/physics/SetMaxStepSizeInRegion    water {cut} mm
+/gate/physics/ActivateStepLimiter       proton
+/gate/physics/ActivateStepLimiter       deuteron
+/gate/physics/ActivateStepLimiter       triton
+/gate/physics/ActivateStepLimiter       alpha
+/gate/physics/ActivateStepLimiter       GenericIon
+
+
+
+###  INITIALIZE SIMULATION
+/gate/run/initialize
+
+
+
+###  setup the BEAM
+/control/alias                       PB 1  #  beam number if multiple beams
+/control/execute                     ./pencilBeam-ene-disp-sigXY-thetaphi-emit-focus.mac
+/control/alias                       X   0.
+/control/alias                       Y   0.
+/control/alias                       Z   -1000.
+/gate/source/pncBm{PB}/setPosition   {X} {Y} {Z} mm  #  -ve Z towards beam source
+
+
+
+# ###  VISUALIZATION
+# /control/execute     ../visSim.mac
+
+
+
+###  setup the SIMULATION
+/gate/random/setEngineName MersenneTwister
+/gate/random/setEngineSeed auto
+/gate/application/setTotalNumberOfPrimaries 1e3  # 1e5 approx 20 min per core, approx 1000 sims per day
+/gate/application/noGlobalOutput
+
+/gate/application/start
+
+# /control/shell touch output/gate.done.{n}.txt
+
+exit

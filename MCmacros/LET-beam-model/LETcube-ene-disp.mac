@@ -1,0 +1,21 @@
+#  LET depth scoring to produce graph of delivered LET
+#  condenses braggPeakChamber cylinder into depth axis
+#  useage:
+#/control/alias   ene <E>  #  must be same SC as linked screen
+#/control/alias   disp <D>  #  must be same SC as linked screen
+#/control/execute   ./LETcube-{ene}-{disp}-{n}.mac
+
+/gate/actor/addActor                             LETActor   LETcube
+/gate/actor/LETcube/save                         output/LETcube-{ene}-{disp}-{n}.mhd
+/gate/actor/LETcube/attachTo                     water
+# /gate/actor/LETcube/attachTo                   braggPeakChamber
+/gate/actor/LETcube/setPosition                  0. 0. 0. mm
+/gate/actor/LETcube/setResolution                400 400 400
+# /gate/actor/LETcube/voxelsize                    1. 1. 1. mm
+
+/gate/actor/LETcube/setType                      DoseAveraged
+
+# /gate/actor/LETcube/addFilter                    particleFilter
+# /gate/actor/LETcube/particleFilter/addParticle   proton
+# /gate/actor/LETcube/addFilter                    IDFilter
+# /gate/actor/LETcube/IDFilter/selectParentID      1
